@@ -1,0 +1,29 @@
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em;
+    background: var(--bg1);
+
+    border-bottom: 3px solid var(--clr3);
+
+    h1 {
+        font-size: 50px;
+    }
+
+    .blue {
+        color: var(--clr2);
+    }
+
+    nav a {
+        margin: .5em;
+    }
+
+    nav a.active {
+        color: var(--clr2);
+        font-weight: bold;
+    }
+
+
+
+}
