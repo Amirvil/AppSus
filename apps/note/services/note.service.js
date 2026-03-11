@@ -19,33 +19,40 @@ const gNotes = [
     {
         id: 'n102',
         createdAt: 1112223,
-        type: 'NoteImg',
+        type: 'NoteTxt',
         isPinned: false,
         style: {
             backgroundColor: '#0d0'
         },
         info: {
-            url: 'http://some-img/me',
-            title: 'Bobi and Me'
+            title: 'Bobi and Me',
+            txt: 'Me and Bobi'
         }
     },
     {
         id: 'n103',
         createdAt: 1112224,
-        type: 'NoteTodos',
+        type: 'NoteTxt',
         isPinned: false,
         style: {
             backgroundColor: '#d00'
         },
         info: {
             title: 'Get my stuff together',
-            todos: [
-                {
-                    txt: 'Driving license'
-                    , isDone: true
-                },
-                { txt: 'Coding power', isDone: false }
-            ]
+            txt: 'Getting my shit together'
+        }
+    },
+    {
+        id: 'n104',
+        createdAt: 1112225,
+        type: 'NoteTxt',
+        isPinned: false,
+        style: {
+            backgroundColor: '#d00'
+        },
+        info: {
+            title: 'Team America',
+            txt: 'America fuck yeah!'
         }
     }
 ]

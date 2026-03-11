@@ -1,22 +1,8 @@
 :root {
-    /* --bg1: lightblue;
-    --bg2: rgb(50, 160, 204);
-    --bg3: rgb(89, 134, 206);
-    
-    --color1: rgb(26, 115, 232);
-    --color2: rgb(24, 128, 56);
-    --color3: rgb(197, 34, 31);
-
-    --gray2: #aaa;
-    --gray2: #888;
-    --gray2: #333; */
-
-
-    --clr1: #1A1A1A;
+    --clr1: #202124;
     --clr2: #4285F4;
     --clr3: rgb(220, 220, 220);
+    --clr4: #e0e0e0;
 
-    --bg1: whitesmoke;
-
-
+    --bg1: white;
 }

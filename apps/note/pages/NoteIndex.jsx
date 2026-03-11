@@ -1,9 +1,7 @@
 const { useState, useEffect } = React
-const { Link, useSearchParams } = ReactRouterDOM
 
 import { NoteList } from '../cmps/NoteList.jsx'
 import { noteService } from '../services/note.service.js'
-import { utilService } from '../services/util.service.js'
 
 export function NoteIndex() {
     const [notes, setNotes] = useState(null)
@@ -17,10 +15,6 @@ export function NoteIndex() {
     function loadNotes() {
         noteService.query(filterBy)
             .then(setNotes)
-    }
-
-    function onClearFilter() {
-        setFilterBy(noteService.getDefaultFilter())
     }
 
     if (!notes) return <div className="loader">
