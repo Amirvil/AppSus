@@ -1,6 +1,8 @@
 const { useState, useEffect } = React
 
 import { NoteList } from '../cmps/NoteList.jsx'
+import { NoteHeader } from '../cmps/NoteHeader.jsx'
+import { NoteNav } from '../cmps/NoteNav.jsx'
 import { noteService } from '../services/note.service.js'
 
 export function NoteIndex() {
@@ -23,8 +25,10 @@ export function NoteIndex() {
 
     console.log(notes)
 
-    return <div className="note-index">
+    return <div className="note-index container">
         <React.Fragment>
+            <NoteHeader />
+            <NoteNav />
             <NoteList
                 notes={notes} />
         </React.Fragment>
