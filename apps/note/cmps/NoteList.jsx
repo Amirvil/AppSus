@@ -1,10 +1,11 @@
 const { useState, useEffect, useRef } = React
 
 import { NotePreview } from './NotePreview.jsx'
+import { noteService, NoteService } from '../services/note.service.js'
 
 export function NoteList({ notes, onAddNote }) {
 
-    const [noteToEdit, setNoteToEdit] = useState({info: { title: '', txt: '' } })
+    const [noteToEdit, setNoteToEdit] = useState(noteService.getEmptyNote())
     const noteRef = useRef(null)
 
     useEffect(() => {

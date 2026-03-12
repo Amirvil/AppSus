@@ -103,7 +103,19 @@ function save(note) {
 }
 
 function getEmptyNote(title = '', txt = '') {
-    return { title, txt }
+    return {
+        id: '',
+        createdAt: Date.now(),
+        type: 'NoteTxt',
+        isPinned: false,
+        style: {
+            backgroundColor: 'white'
+        },
+        info: {
+            title: '',
+            txt: ''
+        }
+    }
 }
 
 function getDefaultFilter(filterBy = { txt: '' }) {
