@@ -4,6 +4,7 @@ import { NoteList } from '../cmps/NoteList.jsx'
 import { NoteHeader } from '../cmps/NoteHeader.jsx'
 import { NoteNav } from '../cmps/NoteNav.jsx'
 import { noteService } from '../services/note.service.js'
+import { showSuccessMsg } from '../services/event-bus.service.js'
 
 export function NoteIndex() {
     const [notes, setNotes] = useState(null)
@@ -19,6 +20,14 @@ export function NoteIndex() {
             .then(setNotes)
     }
 
+    function onAddNote(newNote) {
+        noteService.save(newNote)
+            .then(savedNote => {
+                setNotes(prevNotes => [savedNote, ...prevNotes])
+                showSuccessMsg('Note added successfully')
+            })
+    }
+
     if (!notes) return <div className="loader">
         Loading...
     </div>
@@ -30,7 +39,8 @@ export function NoteIndex() {
             <NoteHeader />
             <NoteNav />
             <NoteList
-                notes={notes} />
+                notes={notes}
+                onAddNote={onAddNote} />
         </React.Fragment>
     </div>
 }
