@@ -2,5 +2,8 @@
     grid-area: nav;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    padding-top: 20px;
+    gap: 5px;
+
+    justify-self: end;
 }

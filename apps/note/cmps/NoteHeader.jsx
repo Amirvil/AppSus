@@ -4,9 +4,27 @@ export function NoteHeader() {
 
     return <header className="note-header">
 
-        <div className="header-group search-bar">
-            <button className="icon-btn search-icon">
-                <i className="fa-solid fa-magnifying-glass"></i>
+        <div className="header-group left">
+            <button>
+                <img src="assets/img/account.svg" />
+            </button>
+            <button>
+                <img src="assets/img/applications.svg" />
+            </button>
+            <button>
+                <img src="assets/img/settings.svg" />
+            </button>
+            <button>
+                <img src="assets/img/listView.png" />
+            </button>
+            <button>
+                <img src="assets/img/refresh.svg" />
+            </button>
+        </div>
+
+        <div className="header-group center search-bar">
+            <button>
+                <img src="assets/img/search.svg" />
             </button>
             <input type="text" placeholder="Search" />
         </div>
@@ -18,7 +36,9 @@ export function NoteHeader() {
             <Link to="/note">
                 <img className="logo" src="assets/img/logo.png" />
             </Link>
-            <img className="menu" src="assets/img/hamburger.png" />
+            <button>
+                <img src="assets/img/menu.svg" />
+            </button>
         </div>
     </header>
 }

@@ -4,7 +4,6 @@
     justify-content: space-between;
     align-items: center;
 
-    gap: 80px;
     border-bottom: 1px solid var(--clr4);
 }
 
@@ -15,12 +14,11 @@
 .header-group {
     display: flex;
     align-items: center;
-    gap: 15px;
 }
 
-.menu {
-    width: 24px;
-    height: 24px;
+.right {
+    padding-left: 80px;
+    gap: 10px;
 }
 
 .search-bar {
@@ -29,6 +27,7 @@
     background-color: #f1f3f4;
     height: 48px;
     width: 100%;
+    max-width: 600px;
     border-radius: 8px;
     padding: 0 10px;
     transition: background-color 0.2s, box-shadow 0.2s;
