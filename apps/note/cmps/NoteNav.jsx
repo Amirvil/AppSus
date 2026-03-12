@@ -2,6 +2,7 @@ const { Link, NavLink } = ReactRouterDOM
 
 export function NoteNav() {
 
+
     return <nav className="note-nav">
         <NavLink to="/note" end><button><img className="icon" src="assets/img/bulb.svg" /></button></NavLink>
         <NavLink to="/note"><button><img className="icon" src="assets/img/notifications.svg" /></button></NavLink>
