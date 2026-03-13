@@ -1,8 +1,6 @@
 const { useState, useEffect } = React
 
 import { NoteList } from '../cmps/NoteList.jsx'
-import { NoteHeader } from '../cmps/NoteHeader.jsx'
-import { NoteNav } from '../cmps/NoteNav.jsx'
 import { noteService } from '../services/note.service.js'
 import { showSuccessMsg } from '../services/event-bus.service.js'
 
@@ -36,8 +34,6 @@ export function NoteIndex() {
 
     return <div className="note-index container">
         <React.Fragment>
-            <NoteHeader />
-            <NoteNav />
             <NoteList
                 notes={notes}
                 onAddNote={onAddNote} />

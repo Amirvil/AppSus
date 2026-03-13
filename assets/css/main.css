@@ -9,8 +9,8 @@
 @import './cmps/UserMsg.css';
 @import './cmps/AppHeader.css';
 
-@import './apps/note/NoteIndex.css';
-@import './apps/note/NotePreview.css';
-@import './apps/note/NoteList.css';
-@import './apps/note/NoteHeader.css';
-@import './apps/note/NoteNav.css';
+@import './cmps/NoteHeader.css';
+@import './cmps/NoteNav.css';
+@import './cmps/NoteIndex.css';
+@import './cmps/NoteList.css';
+@import './cmps/NotePreview.css';
