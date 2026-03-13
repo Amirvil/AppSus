@@ -3,7 +3,7 @@ const { useState, useEffect, useRef } = React
 import { NotePreview } from './NotePreview.jsx'
 import { noteService} from '../services/note.service.js'
 
-export function NoteList({ notes, onAddNote, onRemoveNote }) {
+export function NoteList({ notes, onAddNote, onRemoveNote, onSelectNote }) {
 
     const [noteToEdit, setNoteToEdit] = useState(noteService.getEmptyNote())
     const noteRef = useRef(null)
@@ -48,7 +48,7 @@ export function NoteList({ notes, onAddNote, onRemoveNote }) {
 
             <ul className="note-grid">
                 {notes.map(note => <li className="note-card" key={note.id}>
-                    <NotePreview note={note} onRemoveNote={onRemoveNote}/>
+                    <NotePreview note={note} onRemoveNote={onRemoveNote} onSelectNote={onSelectNote}/>
                 </li>)}
             </ul>
 
