@@ -1,22 +1,22 @@
 const { useState, useEffect, useRef } = React
 
 import { NotePreview } from './NotePreview.jsx'
-import { noteService, NoteService } from '../services/note.service.js'
+import { noteService} from '../services/note.service.js'
 
-export function NoteList({ notes, onAddNote }) {
+export function NoteList({ notes, onAddNote, onRemoveNote }) {
 
     const [noteToEdit, setNoteToEdit] = useState(noteService.getEmptyNote())
     const noteRef = useRef(null)
 
     useEffect(() => {
         function handleClickOutside(ev) {
-            if (noteRef.current && !noteRef.current.contains(ev.target)) saveNote()
+            if (noteRef.current && !noteRef.current.contains(ev.target)) onSaveNote()
         }
         document.addEventListener('mousedown', handleClickOutside)
         return () => document.removeEventListener('mousedown', handleClickOutside)
     }, [noteToEdit])
 
-    function saveNote() {
+    function onSaveNote() {
         if (noteToEdit.info.title || noteToEdit.info.txt) {
             onAddNote(noteToEdit)
             setNoteToEdit({info: { title: '', txt: '' } })
@@ -48,7 +48,7 @@ export function NoteList({ notes, onAddNote }) {
 
             <ul className="note-grid">
                 {notes.map(note => <li className="note-card" key={note.id}>
-                    <NotePreview note={note} />
+                    <NotePreview note={note} onRemoveNote={onRemoveNote}/>
                 </li>)}
             </ul>
 
