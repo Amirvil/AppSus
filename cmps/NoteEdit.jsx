@@ -1,7 +1,19 @@
 const { useState } = React
 
+import { NoteColor } from './NoteColor.jsx'
+
 export function NoteEdit({ note, onUpdateNote, onClose }) {
     const [noteToEdit, setNoteToEdit] = useState({ ...note })
+    const [isPaletteOpen, setIsPaletteOpen] = useState(false)
+
+    function onSetColor(color) {
+        setNoteToEdit(prev => ({
+            ...prev,
+            style: { ...prev.style, backgroundColor: color }
+        }))
+
+        setIsPaletteOpen(false)
+    }
 
     function handleChange({ target }) {
         const { name, value } = target
@@ -18,7 +30,7 @@ export function NoteEdit({ note, onUpdateNote, onClose }) {
 
     return (
         <section className="note-edit-backdrop" onClick={onSave}>
-            <div className="note-edit-modal note-card" onClick={(ev) => ev.stopPropagation()}>
+            <div className="note-edit-modal note-card" onClick={(ev) => ev.stopPropagation()} style={{ backgroundColor: noteToEdit.style.backgroundColor }}>
 
                 <form onSubmit={(ev) => ev.preventDefault()}>
                     <input
@@ -54,8 +66,9 @@ export function NoteEdit({ note, onUpdateNote, onClose }) {
                         <button>
                             <img src="assets/img/image.svg" />
                         </button>
-                        <button>
+                        <button onClick={() => setIsPaletteOpen(!isPaletteOpen)}>
                             <img src="assets/img/pallette.svg" />
+                            {isPaletteOpen && <NoteColor onSetColor={onSetColor} />}
                         </button>
                         <button type="button" className="btn-close" onClick={onSave}>
                             X
