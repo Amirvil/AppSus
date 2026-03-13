@@ -32,7 +32,7 @@ export function NoteIndex() {
 
     console.log(notes)
 
-    return <div className="note-index container">
+    return <div className="note-index">
         <React.Fragment>
             <NoteList
                 notes={notes}

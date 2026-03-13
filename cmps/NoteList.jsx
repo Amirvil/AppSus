@@ -32,7 +32,7 @@ export function NoteList({ notes, onAddNote }) {
         }
     }
 
-    return <div className="container">
+    return <div>
 
         <section className="note-composer" ref={noteRef}>
 

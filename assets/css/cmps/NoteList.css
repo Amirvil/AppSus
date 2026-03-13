@@ -1,7 +1,4 @@
  /* note list */
- .note-list {
-     grid-area: main;
- }
 
  .note-grid {
      display: grid;

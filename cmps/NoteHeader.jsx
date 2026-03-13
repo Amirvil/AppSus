@@ -6,15 +6,6 @@ export function NoteHeader() {
 
         <div className="header-group left">
             <button>
-                <img src="assets/img/account.svg" />
-            </button>
-            <button>
-                <img src="assets/img/applications.svg" />
-            </button>
-            <button>
-                <img src="assets/img/settings.svg" />
-            </button>
-            <button>
                 <img src="assets/img/listView.png" />
             </button>
             <button>
