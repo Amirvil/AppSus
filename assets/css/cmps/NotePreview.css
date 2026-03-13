@@ -1,12 +1,16 @@
 .note-preview{
     display: flex;
     flex-direction: column;
+    justify-content: space-evenly;
+
     gap: 5px;
 }
 
 .actions{
     display: flex;
     justify-content: space-between;
+
+    margin-top: 5px;
 
     button{
         height: 32px;

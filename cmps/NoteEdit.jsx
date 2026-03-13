@@ -17,31 +17,48 @@ export function NoteEdit({ note, onUpdateNote, onClose }) {
     }
 
     return (
-        <section className="note-edit-backdrop" onClick={onClose}>
-            <div className="note-edit-modal" onClick={(ev) => ev.stopPropagation()}>
-                
+        <section className="note-edit-backdrop" onClick={onSave}>
+            <div className="note-edit-modal note-card" onClick={(ev) => ev.stopPropagation()}>
+
                 <form onSubmit={(ev) => ev.preventDefault()}>
-                    <input 
-                        type="text" 
+                    <input
+                        type="text"
                         name="title"
                         className="edit-title"
-                        value={noteToEdit.info.title} 
-                        onChange={handleChange} 
-                        placeholder="Title" 
-                    />
-                    
-                    <textarea 
-                        name="txt"
-                        className="edit-txt"
-                        value={noteToEdit.info.txt} 
-                        onChange={handleChange} 
-                        placeholder="Note"
-                        rows="5"
+                        value={noteToEdit.info.title || ''}
+                        onChange={handleChange}
+                        placeholder="Title"
                     />
 
-                    <div className="modal-actions">
+                    <input
+                        type="text"
+                        name="txt"
+                        className="edit-txt"
+                        value={noteToEdit.info.txt}
+                        onChange={handleChange}
+                        placeholder="Note"
+                    />
+
+                    <p className="last-update">Last update: {new Date(note.createdAt).toLocaleDateString()}</p>
+
+                    <div className="modal-actions actions">
+                        <button onClick={() => onRemoveNote(note.id)}>
+                            <img src="assets/img/trash.svg" />
+                        </button>
+                        <button>
+                            <img src="assets/img/label.svg" />
+                        </button>
+                        <button>
+                            <img src="assets/img/archive.svg" />
+                        </button>
+                        <button>
+                            <img src="assets/img/image.svg" />
+                        </button>
+                        <button>
+                            <img src="assets/img/pallette.svg" />
+                        </button>
                         <button type="button" className="btn-close" onClick={onSave}>
-                            Close
+                            X
                         </button>
                     </div>
                 </form>

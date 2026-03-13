@@ -23,5 +23,5 @@ export function NotePreview({ note, onRemoveNote, onSelectNote }) {
                 <img src="assets/img/pallette.svg" />
             </button>
         </div>
-    </article >
+    </article>
 }
