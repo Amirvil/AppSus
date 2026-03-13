@@ -1,5 +1,19 @@
+const { useState } = React
 
-export function NotePreview({ note, onRemoveNote, onSelectNote }) {
+import { NoteColor } from './NoteColor.jsx'
+
+export function NotePreview({ note, onRemoveNote, onSelectNote, onUpdateNote }) {
+    const [isPaletteOpen, setIsPaletteOpen] = useState(false)
+
+    function onSetColor(color) {
+        const updatedNote = {
+            ...note,
+            style: { ...note.style, backgroundColor: color }
+        }
+        onUpdateNote(updatedNote)
+        setIsPaletteOpen(false)
+    }
+
     return <article className="note-preview">
         <h2 className="note-title">{note.info && note.info.title || 'No Title'}</h2>
         <p className="note-content">{note.info.txt}</p>
@@ -19,8 +33,9 @@ export function NotePreview({ note, onRemoveNote, onSelectNote }) {
             <button>
                 <img src="assets/img/image.svg" />
             </button>
-            <button>
+            <button onClick={() => setIsPaletteOpen(!isPaletteOpen)}>
                 <img src="assets/img/pallette.svg" />
+                {isPaletteOpen && <NoteColor onSetColor={onSetColor} />}
             </button>
         </div>
     </article>

@@ -64,7 +64,7 @@ export function NoteIndex() {
                 onAddNote={onAddNote}
                 onRemoveNote={onRemoveNote}
                 onSelectNote={(note) => setSelectedNote(note)}
-                onUpdate={onUpdateNote} />
+                onUpdateNote={onUpdateNote} />
 
             {selectedNote && (<NoteEdit
                 note={selectedNote}

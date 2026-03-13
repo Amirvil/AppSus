@@ -10,7 +10,7 @@ const gNotes = [
         type: 'NoteTxt',
         isPinned: true,
         style: {
-            backgroundColor: '#00d'
+            backgroundColor: 'white'
         },
         info: {
             txt: 'Fullstack Me Baby!'
@@ -22,7 +22,7 @@ const gNotes = [
         type: 'NoteTxt',
         isPinned: false,
         style: {
-            backgroundColor: '#0d0'
+            backgroundColor: 'white'
         },
         info: {
             title: 'Bobi and Me',
@@ -35,7 +35,7 @@ const gNotes = [
         type: 'NoteTxt',
         isPinned: false,
         style: {
-            backgroundColor: '#d00'
+            backgroundColor: 'white'
         },
         info: {
             title: 'Get my stuff together',
@@ -48,7 +48,7 @@ const gNotes = [
         type: 'NoteTxt',
         isPinned: false,
         style: {
-            backgroundColor: '#d00'
+            backgroundColor: 'white'
         },
         info: {
             title: 'Team America',

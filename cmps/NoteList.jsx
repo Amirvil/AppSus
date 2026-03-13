@@ -1,9 +1,9 @@
 const { useState, useEffect, useRef } = React
 
 import { NotePreview } from './NotePreview.jsx'
-import { noteService} from '../services/note.service.js'
+import { noteService } from '../services/note.service.js'
 
-export function NoteList({ notes, onAddNote, onRemoveNote, onSelectNote }) {
+export function NoteList({ notes, onAddNote, onRemoveNote, onSelectNote, onUpdateNote }) {
 
     const [noteToEdit, setNoteToEdit] = useState(noteService.getEmptyNote())
     const noteRef = useRef(null)
@@ -19,7 +19,7 @@ export function NoteList({ notes, onAddNote, onRemoveNote, onSelectNote }) {
     function onSaveNote() {
         if (noteToEdit.info.title || noteToEdit.info.txt) {
             onAddNote(noteToEdit)
-            setNoteToEdit({info: { title: '', txt: '' } })
+            setNoteToEdit({ info: { title: '', txt: '' } })
         }
     }
 
@@ -47,8 +47,8 @@ export function NoteList({ notes, onAddNote, onRemoveNote, onSelectNote }) {
         <section className="note-list">
 
             <ul className="note-grid">
-                {notes.map(note => <li className="note-card" key={note.id}>
-                    <NotePreview note={note} onRemoveNote={onRemoveNote} onSelectNote={onSelectNote}/>
+                {notes.map(note => <li className="note-card" key={note.id} style={{ backgroundColor: note.style.backgroundColor }}>
+                    <NotePreview note={note} onRemoveNote={onRemoveNote} onSelectNote={onSelectNote} onUpdateNote={onUpdateNote} />
                 </li>)}
             </ul>
 
