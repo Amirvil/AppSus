@@ -14,7 +14,18 @@ export function NotePreview({ note, onRemoveNote, onSelectNote, onUpdateNote }) 
         setIsPaletteOpen(false)
     }
 
+    function onPinned(ev) {
+        ev.stopPropagation()
+        const updatedNote = { ...note, isPinned: !note.isPinned }
+        onUpdateNote(updatedNote)
+    }
+
     return <article className="note-preview">
+        <button className={`btn-pin ${(note.isPinned) ? 'pinned' : ''}`}
+            onClick={(ev) => onPinned(ev)}>
+            <img src="assets/img/pin.svg"
+                style={{ opacity: note.isPinned ? 1 : 0.4 }} />
+        </button>
         <h2 className="note-title">{note.info && note.info.title || 'No Title'}</h2>
         <p className="note-content">{note.info.txt}</p>
         <div className="actions">

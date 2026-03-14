@@ -1,4 +1,5 @@
 const { useState, useEffect } = React
+const { useSearchParams } = ReactRouterDOM
 
 import { NoteList } from '../cmps/NoteList.jsx'
 import { NoteEdit } from '../cmps/NoteEdit.jsx'
@@ -6,19 +7,29 @@ import { noteService } from '../services/note.service.js'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 
 export function NoteIndex() {
-    const [notes, setNotes] = useState(null)
-    const [filterBy, setFilterBy] = useState(noteService.getDefaultFilter())
+    const [notes, setNotes] = useState([])
+    const [searchParams] = useSearchParams()
     const [selectedNote, setSelectedNote] = useState(null)
+
+    const filterBy = searchParams.get('txt') || ''
 
     useEffect(() => {
         loadNotes()
-        return () => console.log('Bye')
-    }, [filterBy])
+    }, [searchParams])
 
     function loadNotes() {
         noteService.query(filterBy)
             .then(setNotes)
     }
+
+
+    const notesToDisplay = notes.filter(note => {
+        const searchStr = filterBy.toLowerCase()
+        const title = (note.info && note.info.title) ? note.info.title.toLowerCase() : ''
+        const txt = (note.info && note.info.txt) ? note.info.txt.toLowerCase() : ''
+
+        return title.includes(searchStr) || txt.includes(searchStr)
+    })
 
     function onAddNote(newNote) {
         noteService.save(newNote)
@@ -60,7 +71,7 @@ export function NoteIndex() {
     return <div className="note-index">
         <React.Fragment>
             <NoteList
-                notes={notes}
+                notes={notesToDisplay}
                 onAddNote={onAddNote}
                 onRemoveNote={onRemoveNote}
                 onSelectNote={(note) => setSelectedNote(note)}

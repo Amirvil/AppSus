@@ -1,6 +1,8 @@
-const { Link, NavLink } = ReactRouterDOM
+const { Link } = ReactRouterDOM
 
-export function NoteHeader() {
+import { NoteFilter } from './NoteFilter.jsx'
+
+export function NoteHeader({onSetFilter}) {
 
     return <header className="note-header">
 
@@ -13,12 +15,7 @@ export function NoteHeader() {
             </button>
         </div>
 
-        <div className="header-group center search-bar">
-            <button>
-                <img src="assets/img/search.svg" />
-            </button>
-            <input type="text" placeholder="Search" />
-        </div>
+        <NoteFilter onSetFilter={onSetFilter}/>
 
         <div className="header-group right">
             <Link to="/note">

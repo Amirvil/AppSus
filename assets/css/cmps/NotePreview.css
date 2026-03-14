@@ -1,24 +1,42 @@
-.note-preview{
+.note-preview {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
 
     gap: 5px;
+
+    &:hover button {
+        opacity: 1;
+    }
 }
 
-.actions{
+.actions {
     display: flex;
     justify-content: space-between;
 
     margin-top: 5px;
 
-    button{
+    button {
         height: 32px;
         width: 32px;
+        opacity: 0;
     }
 
-    img{
+    img {
         height: 18px;
         aspect-ratio: 1/1;
     }
+}
+
+.btn-pin {
+    position: absolute;
+    top: -30px;
+    right: -25px;
+
+    opacity: 0;
+}
+
+.pinned {
+    opacity: 1;
 }
