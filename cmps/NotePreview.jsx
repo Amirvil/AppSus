@@ -2,7 +2,7 @@ const { useState } = React
 
 import { NoteColor } from './NoteColor.jsx'
 
-export function NotePreview({ note, onRemoveNote, onSelectNote, onUpdateNote }) {
+export function NotePreview({ note, onRemoveNote, onSelectNote, onUpdateNote, onAddNote }) {
     const [isPaletteOpen, setIsPaletteOpen] = useState(false)
 
     function onSetColor(color) {
@@ -20,6 +20,12 @@ export function NotePreview({ note, onRemoveNote, onSelectNote, onUpdateNote }) 
         onUpdateNote(updatedNote)
     }
 
+    function onDuplicate(ev) {
+        ev.stopPropagation()
+        const { id, ...noteToCopy } = note
+        onAddNote(noteToCopy)
+    }
+
     return <article className="note-preview">
         <button className={`btn-pin ${(note.isPinned) ? 'pinned' : ''}`}
             onClick={(ev) => onPinned(ev)}>
@@ -34,6 +40,9 @@ export function NotePreview({ note, onRemoveNote, onSelectNote, onUpdateNote }) 
             </button>
             <button onClick={() => onSelectNote(note)}>
                 <img src="assets/img/edit.svg" />
+            </button>
+            <button onClick={(ev) => onDuplicate(ev)}>
+                <img src="assets/img/copy.svg" />
             </button>
             <button>
                 <img src="assets/img/label.svg" />
