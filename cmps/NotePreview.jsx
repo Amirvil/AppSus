@@ -54,6 +54,9 @@ export function NotePreview({ note, onRemoveNote, onSelectNote, onUpdateNote, on
             <button>
                 <img src="assets/img/image.svg" />
             </button>
+            <button>
+                <img src="assets/img/video.svg" />
+            </button>
             <button onClick={() => setIsPaletteOpen(!isPaletteOpen)}>
                 <img src="assets/img/pallette.svg" />
                 {isPaletteOpen && <NoteColor onSetColor={onSetColor} />}

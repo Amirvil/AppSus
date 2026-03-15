@@ -10,7 +10,7 @@
         opacity: 1;
     }
 
-    .img-note {
+    iframe, .img-note {
         display: flex;
         justify-self: center;
         width: 100%;

@@ -11,6 +11,7 @@ export function NoteList({ notes, onAddNote, onRemoveNote, onSelectNote, onUpdat
     const fileInputRef = useRef(null)
     const [isExpanded, setIsExpanded] = useState(false)
     const [isPaletteOpen, setIsPaletteOpen] = useState(false)
+    const [isVideoMode, setIsVideoMode] = useState(false)
 
     useEffect(() => {
         function handleClickOutside(ev) {
@@ -27,10 +28,12 @@ export function NoteList({ notes, onAddNote, onRemoveNote, onSelectNote, onUpdat
     const otherNotes = notes.filter(note => !note.isPinned)
 
     function onSaveNote() {
-        if (noteToEdit.info.title || noteToEdit.info.txt || noteToEdit.info.url) {
-            onAddNote(noteToEdit)
-
+        const { title, txt, url } = noteToEdit.info
+        if (title || txt || url) {
+            if (noteToEdit.id) onUpdateNote(noteToEdit)
+            else onAddNote(noteToEdit)
         }
+        setIsVideoMode(false)
         setNoteToEdit(noteService.getEmptyNote())
     }
 
@@ -85,6 +88,18 @@ export function NoteList({ notes, onAddNote, onRemoveNote, onSelectNote, onUpdat
         reader.readAsDataURL(file)
     }
 
+    function onVideoUpload(ev) {
+        const url = ev.target.value
+        if (url) {
+            setNoteToEdit(prev => ({
+                ...prev,
+                type: 'NoteVideo',
+                info: { ...prev.info, url }
+            }))
+            setIsVideoMode(false) // Close input once valid
+        }
+    }
+
     return <div>
 
         <section className="note-composer" ref={noteRef}
@@ -105,8 +120,36 @@ export function NoteList({ notes, onAddNote, onRemoveNote, onSelectNote, onUpdat
                 </button>
             )}
 
+            {isVideoMode && (
+                <input
+                    className="video-url-input content-input"
+                    type="text"
+                    placeholder="Paste YouTube URL here..."
+                    autoFocus
+                    onBlur={(ev) => onVideoUpload(ev)}
+                />
+            )}
+
             {noteToEdit.info.url && (
-                <img className="composer-img" src={noteToEdit.info.url} alt="preview" />
+                <div className="composer-media-preview">
+                    {noteToEdit.type === 'NoteImg' && (
+                        <img className="composer-img" src={noteToEdit.info.url} alt="preview" />
+                    )}
+
+                    {noteToEdit.type === 'NoteVideo' && (
+                        <div className="video-container">
+                            <iframe
+                                src={noteToEdit.info.url.replace("watch?v=", "embed/")}
+                                frameBorder="0"
+                            ></iframe>
+                        </div>
+                    )}
+
+                    <button className="btn-remove-media"
+                        onClick={() => setNoteToEdit(prev => ({ ...prev, type: 'NoteTxt', info: { ...prev.info, url: '' } }))}>
+                        ✕
+                    </button>
+                </div>
             )}
 
             <form className="note-form" onSubmit={ev => ev.preventDefault()}>
@@ -134,6 +177,9 @@ export function NoteList({ notes, onAddNote, onRemoveNote, onSelectNote, onUpdat
                     </button>
                     <button onClick={() => fileInputRef.current.click()}>
                         <img src="assets/img/image.svg" />
+                    </button>
+                    <button onClick={() => setIsVideoMode(!isVideoMode)}>
+                        <img src="assets/img/video.svg" />
                     </button>
                     <button>
                         <img src="assets/img/notifications.svg" />
