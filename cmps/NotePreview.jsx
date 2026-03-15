@@ -39,7 +39,7 @@ export function NotePreview({ note, onRemoveNote, onSelectNote, onUpdateNote, on
         />
         <button className={`btn-pin ${(note.isPinned) ? 'pinned' : ''}`}
             onClick={(ev) => onPinned(ev)}>
-            <img src="assets/img/pin.svg"
+            <img className="img-pin" src="assets/img/pin.svg"
                 style={{ opacity: note.isPinned ? 1 : 0.4 }} />
         </button>
         <NoteDynamic note={note} />

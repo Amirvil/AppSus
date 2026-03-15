@@ -10,7 +10,8 @@
         opacity: 1;
     }
 
-    iframe, .img-note {
+    iframe,
+    .img-note {
         display: flex;
         justify-self: center;
         width: 100%;
@@ -41,12 +42,8 @@
 
 .btn-pin {
     position: absolute;
-    top: -30px;
-    right: -25px;
+    top: 0;
+    right: 0;
 
     opacity: 0;
-}
-
-.pinned {
-    opacity: 1;
 }

@@ -29,21 +29,25 @@ input[type="text"] {
     color: #3c4043;
 }
 
- button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 45px;
-        height: 45px;
-        border-radius: 50%;
-        background-color: transparent;
-        border: none;
-        cursor: pointer;
-        transition: background-color 0.2s ease;
-        padding: 0;
-        outline: none;
+button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    padding: 0;
+    outline: none;
 
-        &:hover {
-            background-color: rgba(60, 64, 67, 0.1);
-        }
+    &:hover {
+        background-color: rgba(60, 64, 67, 0.1);
     }
+
+    &:active {
+        transform: scale(0.9);
+    }
+}
