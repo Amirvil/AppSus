@@ -1,11 +1,13 @@
-const { useState } = React
+const { useState, useEffect, useRef } = React
 
 import { NoteColor } from './NoteColor.jsx'
 import { NoteDynamic } from './NoteDynamic.jsx'
 
 
-export function NotePreview({ note, onRemoveNote, onSelectNote, onUpdateNote, onAddNote }) {
+export function NotePreview({ note, onRemoveNote, onSelectNote, onUpdateNote, onAddNote, onImageUpload, onVideoUpload }) {
     const [isPaletteOpen, setIsPaletteOpen] = useState(false)
+    const [isVideoMode, setIsVideoMode] = useState(false)
+    const fileInputRef = useRef(null)
 
     function onSetColor(color) {
         const updatedNote = {
@@ -29,6 +31,12 @@ export function NotePreview({ note, onRemoveNote, onSelectNote, onUpdateNote, on
     }
 
     return <article className="note-preview">
+        <input
+            type="file"
+            accept="image/*"
+            style={{ display: 'none' }}
+            ref={fileInputRef}
+        />
         <button className={`btn-pin ${(note.isPinned) ? 'pinned' : ''}`}
             onClick={(ev) => onPinned(ev)}>
             <img src="assets/img/pin.svg"

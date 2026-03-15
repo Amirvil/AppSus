@@ -96,7 +96,7 @@ export function NoteList({ notes, onAddNote, onRemoveNote, onSelectNote, onUpdat
                 type: 'NoteVideo',
                 info: { ...prev.info, url }
             }))
-            setIsVideoMode(false) // Close input once valid
+            setIsVideoMode(false)
         }
     }
 
@@ -202,7 +202,7 @@ export function NoteList({ notes, onAddNote, onRemoveNote, onSelectNote, onUpdat
                     <ul className="note-grid pinned">
                         {pinnedNotes.map(note => <li className="note-card" key={note.id} style={{ backgroundColor: note.style.backgroundColor }}>
                             <NotePreview note={note} onRemoveNote={onRemoveNote} onSelectNote={onSelectNote} onUpdateNote={onUpdateNote}
-                                onAddNote={onAddNote} />
+                                onAddNote={onAddNote} onImageUpload={onImgUpload} onVideoUpload={onVideoUpload} />
                         </li>)}
                     </ul>
                 </div>
