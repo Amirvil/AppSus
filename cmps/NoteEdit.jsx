@@ -2,7 +2,7 @@ const { useState } = React
 
 import { NoteColor } from './NoteColor.jsx'
 
-export function NoteEdit({ note, onUpdateNote, onClose }) {
+export function NoteEdit({ note, onUpdateNote, onClose, onRemoveNote }) {
     const [noteToEdit, setNoteToEdit] = useState({ ...note })
     const [isPaletteOpen, setIsPaletteOpen] = useState(false)
 
@@ -13,6 +13,11 @@ export function NoteEdit({ note, onUpdateNote, onClose }) {
         }))
 
         setIsPaletteOpen(false)
+    }
+
+    function onRemove(noteId) {
+        onRemoveNote(noteId)
+        onClose()
     }
 
     function handleChange({ target }) {
@@ -28,9 +33,14 @@ export function NoteEdit({ note, onUpdateNote, onClose }) {
         onClose()
     }
 
+
     return (
         <section className="note-edit-backdrop" onClick={onSave}>
             <div className="note-edit-modal note-card" onClick={(ev) => ev.stopPropagation()} style={{ backgroundColor: noteToEdit.style.backgroundColor }}>
+
+                {note.info.url &&
+                    <img src={note.info.url} />
+                }
 
                 <form onSubmit={(ev) => ev.preventDefault()}>
                     <input
@@ -49,12 +59,13 @@ export function NoteEdit({ note, onUpdateNote, onClose }) {
                         value={noteToEdit.info.txt}
                         onChange={handleChange}
                         placeholder="Note"
+                        autoComplete="off"
                     />
 
                     <p className="last-update">Last update: {new Date(note.createdAt).toLocaleDateString()}</p>
 
                     <div className="modal-actions actions">
-                        <button onClick={() => onRemoveNote(note.id)}>
+                        <button onClick={() => onRemove(note.id)}>
                             <img src="assets/img/trash.svg" />
                         </button>
                         <button>
@@ -71,7 +82,7 @@ export function NoteEdit({ note, onUpdateNote, onClose }) {
                             {isPaletteOpen && <NoteColor onSetColor={onSetColor} />}
                         </button>
                         <button type="button" className="btn-close" onClick={onSave}>
-                            X
+                            Close
                         </button>
                     </div>
                 </form>

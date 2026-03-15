@@ -81,6 +81,7 @@ export function NoteIndex() {
                 note={selectedNote}
                 onClose={() => setSelectedNote(null)}
                 onUpdateNote={onUpdateNote}
+                onRemoveNote={onRemoveNote}
             />
             )}
         </React.Fragment>

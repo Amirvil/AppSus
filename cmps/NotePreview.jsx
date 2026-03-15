@@ -1,6 +1,8 @@
 const { useState } = React
 
 import { NoteColor } from './NoteColor.jsx'
+import { NoteDynamic } from './NoteDynamic.jsx'
+
 
 export function NotePreview({ note, onRemoveNote, onSelectNote, onUpdateNote, onAddNote }) {
     const [isPaletteOpen, setIsPaletteOpen] = useState(false)
@@ -32,8 +34,7 @@ export function NotePreview({ note, onRemoveNote, onSelectNote, onUpdateNote, on
             <img src="assets/img/pin.svg"
                 style={{ opacity: note.isPinned ? 1 : 0.4 }} />
         </button>
-        <h2 className="note-title">{note.info && note.info.title || 'No Title'}</h2>
-        <p className="note-content">{note.info.txt}</p>
+        <NoteDynamic note={note} />
         <div className="actions">
             <button onClick={() => onRemoveNote(note.id)}>
                 <img src="assets/img/trash.svg" />

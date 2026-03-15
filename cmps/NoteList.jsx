@@ -1,16 +1,23 @@
 const { useState, useEffect, useRef } = React
 
 import { NotePreview } from './NotePreview.jsx'
+import { NoteColor } from './NoteColor.jsx'
 import { noteService } from '../services/note.service.js'
 
 export function NoteList({ notes, onAddNote, onRemoveNote, onSelectNote, onUpdateNote }) {
 
     const [noteToEdit, setNoteToEdit] = useState(noteService.getEmptyNote())
     const noteRef = useRef(null)
+    const fileInputRef = useRef(null)
+    const [isExpanded, setIsExpanded] = useState(false)
+    const [isPaletteOpen, setIsPaletteOpen] = useState(false)
 
     useEffect(() => {
         function handleClickOutside(ev) {
-            if (noteRef.current && !noteRef.current.contains(ev.target)) onSaveNote()
+            if (noteRef.current && !noteRef.current.contains(ev.target)) {
+                onSaveNote()
+                setIsExpanded(false)
+            }
         }
         document.addEventListener('mousedown', handleClickOutside)
         return () => document.removeEventListener('mousedown', handleClickOutside)
@@ -20,10 +27,11 @@ export function NoteList({ notes, onAddNote, onRemoveNote, onSelectNote, onUpdat
     const otherNotes = notes.filter(note => !note.isPinned)
 
     function onSaveNote() {
-        if (noteToEdit.info.title || noteToEdit.info.txt) {
+        if (noteToEdit.info.title || noteToEdit.info.txt || noteToEdit.info.url) {
             onAddNote(noteToEdit)
-            setNoteToEdit({ info: { title: '', txt: '' } })
+
         }
+        setNoteToEdit(noteService.getEmptyNote())
     }
 
     function handleChange({ target }) {
@@ -35,15 +43,108 @@ export function NoteList({ notes, onAddNote, onRemoveNote, onSelectNote, onUpdat
         }
     }
 
+    function onClose() {
+        onSaveNote()
+        setIsExpanded(false)
+    }
+
+    function onPinned(ev) {
+        ev.stopPropagation()
+        setNoteToEdit(prev => ({
+            ...prev,
+            isPinned: !prev.isPinned
+        }))
+    }
+
+    function onSetColor(color) {
+        setNoteToEdit(prevNote => ({
+            ...prevNote,
+            style: { ...prevNote.style, backgroundColor: color }
+        }))
+        setIsPaletteOpen(false)
+    }
+
+    function onImgUpload(ev) {
+        const file = ev.target.files[0]
+        if (!file) return
+
+        const reader = new FileReader()
+
+        reader.onload = (event) => {
+            const imageUrl = event.target.result
+
+            setNoteToEdit(prevNote => ({
+                ...prevNote,
+                type: 'NoteImg',
+                info: {
+                    ...prevNote.info,
+                    url: imageUrl
+                }
+            }))
+        }
+        reader.readAsDataURL(file)
+    }
+
     return <div>
 
-        <section className="note-composer" ref={noteRef}>
+        <section className="note-composer" ref={noteRef}
+            style={{ backgroundColor: (noteToEdit.style && noteToEdit.style.backgroundColor) || '#ffffff' }}>
+            <input
+                type="file"
+                accept="image/*"
+                style={{ display: 'none' }}
+                ref={fileInputRef}
+                onChange={onImgUpload}
+            />
+
+            {isExpanded && (
+                <button className="btn-pin-composer"
+                    onClick={(ev) => onPinned(ev)}>
+                    <img src="assets/img/pin.svg"
+                        style={{ opacity: noteToEdit.isPinned ? 1 : 0.4 }} />
+                </button>
+            )}
+
+            {noteToEdit.info.url && (
+                <img className="composer-img" src={noteToEdit.info.url} alt="preview" />
+            )}
 
             <form className="note-form" onSubmit={ev => ev.preventDefault()}>
-                <input name="title" className="title-input" type="text" placeholder="Title" onChange={handleChange} value={noteToEdit.info.title} />
+                {isExpanded && (
+                    <input name="title" className="title-input" type="text" placeholder="Title" onChange={handleChange} value={noteToEdit.info.title} />
+                )}
+
                 <input name="txt" className="content-input" type="text" placeholder="Take a note..." value={noteToEdit.info.txt}
-                    onChange={handleChange} />
+                    onChange={handleChange}
+                    onFocus={() => setIsExpanded(true)}
+                    autoComplete="off" />
             </form>
+
+            {isExpanded && (
+                <div className="composer-actions">
+                    <button className="btn-close"
+                        onClick={() => onClose()}>
+                        Close
+                    </button>
+                    <button>
+                        <img src="assets/img/label.svg" />
+                    </button>
+                    <button>
+                        <img src="assets/img/archive.svg" />
+                    </button>
+                    <button onClick={() => fileInputRef.current.click()}>
+                        <img src="assets/img/image.svg" />
+                    </button>
+                    <button>
+                        <img src="assets/img/notifications.svg" />
+                    </button>
+                    <button onClick={() => setIsPaletteOpen(!isPaletteOpen)}>
+                        <img src="assets/img/pallette.svg" />
+                        {isPaletteOpen && <NoteColor onSetColor={onSetColor} />}
+                    </button>
+                </div>
+            )}
+
 
         </section>
 

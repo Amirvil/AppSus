@@ -41,7 +41,9 @@
  }
 
  .note-composer {
+     position: relative;
      min-width: 430px;
+     max-width: 600px;
      margin: 20px auto;
      background: var(--bg1);
      border-radius: 8px;
@@ -54,10 +56,10 @@
      box-shadow: 0 1px 1px 0 rgba(65, 69, 73, 0.3), 0 1px 3px 1px rgba(65, 69, 73, 0.15);
  }
 
- .note-form{
-    display: flex;
-    flex-direction: column;
-    padding: 10px 15px;
+ .note-form {
+     display: flex;
+     flex-direction: column;
+     padding: 10px 15px;
  }
 
  .title-input,
@@ -77,4 +79,39 @@
  .content-input {
      font-size: 1rem;
      resize: none;
+ }
+
+ .composer-actions {
+     display: flex;
+     justify-content: space-between;
+     padding: 10px;
+     margin-top: 5px;
+
+     button {
+         height: 32px;
+         width: 32px;
+     }
+
+     img {
+         height: 18px;
+         aspect-ratio: 1/1;
+     }
+ }
+
+ .btn-close {
+     padding: 8px 24px;
+     border-radius: 4px;
+ }
+
+ .btn-pin-composer {
+     position: absolute;
+     top: -20px;
+     right: -15px;
+ }
+
+ .composer-img {
+     width: 100%;
+     height: auto;
+     object-fit: contain;
+     display: block;
  }

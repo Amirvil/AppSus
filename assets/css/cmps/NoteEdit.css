@@ -33,6 +33,10 @@
     .edit-txt {
         font-size: 0.875rem;
     }
+
+    button {
+        opacity: 1;
+    }
 }
 
 .note-card {

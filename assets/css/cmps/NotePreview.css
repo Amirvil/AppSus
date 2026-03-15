@@ -9,6 +9,16 @@
     &:hover button {
         opacity: 1;
     }
+
+    .img-note {
+        display: flex;
+        justify-self: center;
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        max-height: 350px;
+        margin-bottom: 10px;
+    }
 }
 
 .actions {
