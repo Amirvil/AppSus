@@ -120,16 +120,6 @@ export function NoteList({ notes, onAddNote, onRemoveNote, onSelectNote, onUpdat
                 </button>
             )}
 
-            {isVideoMode && (
-                <input
-                    className="video-url-input content-input"
-                    type="text"
-                    placeholder="Paste YouTube URL here..."
-                    autoFocus
-                    onBlur={(ev) => onVideoUpload(ev)}
-                />
-            )}
-
             {noteToEdit.info.url && (
                 <div className="composer-media-preview">
                     {noteToEdit.type === 'NoteImg' && (
@@ -161,6 +151,16 @@ export function NoteList({ notes, onAddNote, onRemoveNote, onSelectNote, onUpdat
                     onChange={handleChange}
                     onFocus={() => setIsExpanded(true)}
                     autoComplete="off" />
+
+                {isVideoMode && (
+                    <input
+                        className="video-url-input content-input"
+                        type="text"
+                        placeholder="Paste YouTube URL here..."
+                        autoFocus
+                        onBlur={(ev) => onVideoUpload(ev)}
+                    />
+                )}
             </form>
 
             {isExpanded && (
@@ -186,8 +186,8 @@ export function NoteList({ notes, onAddNote, onRemoveNote, onSelectNote, onUpdat
                     </button>
                     <button onClick={() => setIsPaletteOpen(!isPaletteOpen)}>
                         <img src="assets/img/pallette.svg" />
-                        {isPaletteOpen && <NoteColor onSetColor={onSetColor} />}
                     </button>
+                    {isPaletteOpen && <NoteColor onSetColor={onSetColor} />}
                 </div>
             )}
 
