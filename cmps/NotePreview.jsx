@@ -30,7 +30,8 @@ export function NotePreview({ note, onRemoveNote, onSelectNote, onUpdateNote, on
         onAddNote(noteToCopy)
     }
 
-    return <article className="note-preview">
+    return <article className="note-preview"
+        style={{ backgroundColor: (note.style && note.style.backgroundColor) ? note.style.backgroundColor : '#ffffff' }}>
         <input
             type="file"
             accept="image/*"
@@ -65,10 +66,11 @@ export function NotePreview({ note, onRemoveNote, onSelectNote, onUpdateNote, on
             <button>
                 <img src="assets/img/video.svg" />
             </button>
-            <button onClick={() => setIsPaletteOpen(!isPaletteOpen)}>
+            <button onClick={() =>
+                setIsPaletteOpen(!isPaletteOpen)}>
                 <img src="assets/img/pallette.svg" />
-                {isPaletteOpen && <NoteColor onSetColor={onSetColor} />}
             </button>
+            {isPaletteOpen && <NoteColor onSetColor={onSetColor} />}
         </div>
-    </article>
+    </article >
 }

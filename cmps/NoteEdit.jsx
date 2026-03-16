@@ -7,11 +7,12 @@ export function NoteEdit({ note, onUpdateNote, onClose, onRemoveNote }) {
     const [isPaletteOpen, setIsPaletteOpen] = useState(false)
 
     function onSetColor(color) {
-        setNoteToEdit(prev => ({
-            ...prev,
-            style: { ...prev.style, backgroundColor: color }
-        }))
-
+        const updatedNote = {
+            ...noteToEdit,
+            style: { ...noteToEdit.style, backgroundColor: color }
+        }
+        setNoteToEdit(updatedNote)
+        onUpdateNote(updatedNote)
         setIsPaletteOpen(false)
     }
 
@@ -79,11 +80,11 @@ export function NoteEdit({ note, onUpdateNote, onClose, onRemoveNote }) {
                         </button>
                         <button onClick={() => setIsPaletteOpen(!isPaletteOpen)}>
                             <img src="assets/img/pallette.svg" />
-                            {isPaletteOpen && <NoteColor onSetColor={onSetColor} />}
                         </button>
                         <button type="button" className="btn-close" onClick={onSave}>
                             Close
                         </button>
+                        {isPaletteOpen && <NoteColor onSetColor={onSetColor} />}
                     </div>
                 </form>
             </div>
