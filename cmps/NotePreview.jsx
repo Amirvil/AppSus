@@ -4,19 +4,23 @@ import { NoteColor } from './NoteColor.jsx'
 import { NoteDynamic } from './NoteDynamic.jsx'
 
 
-export function NotePreview({ note, onRemoveNote, onSelectNote, onUpdateNote, onAddNote, onImgUpload, onVideoUpload }) {
+export function NotePreview({ note, onRemoveNote, onSelectNote, onUpdateNote, onAddNote }) {
     const [isPaletteOpen, setIsPaletteOpen] = useState(false)
     const [isVideoMode, setIsVideoMode] = useState(false)
     const fileInputRef = useRef(null)
     const paletteRef = useRef(null)
+    const videoInputRef = useRef(null)
     const hasMedia = note.info.url ? true : false
 
     useEffect(() => {
-        if (!isPaletteOpen) return
+        if (!isPaletteOpen && !isVideoMode) return
 
         function handleClickOutside(ev) {
             if (paletteRef.current && !paletteRef.current.contains(ev.target)) {
                 setIsPaletteOpen(false)
+            }
+            if (isVideoMode && videoInputRef.current && !videoInputRef.current.contains(ev.target)) {
+                setIsVideoMode(false)
             }
         }
 
@@ -24,7 +28,7 @@ export function NotePreview({ note, onRemoveNote, onSelectNote, onUpdateNote, on
         return () => {
             document.removeEventListener('mousedown', handleClickOutside)
         }
-    }, [isPaletteOpen])
+    }, [isPaletteOpen, isVideoMode])
 
     function onSetColor(color) {
         const updatedNote = {
@@ -47,6 +51,42 @@ export function NotePreview({ note, onRemoveNote, onSelectNote, onUpdateNote, on
         onAddNote(noteToCopy)
     }
 
+    function onImgUpload(ev) {
+        setIsVideoMode(false)
+        const file = ev.target.files[0]
+        if (!file) return
+
+        const reader = new FileReader()
+
+        reader.onload = (event) => {
+            const imageUrl = event.target.result
+
+            const updatedNote = {
+                ...note,
+                type: 'NoteImg',
+                info: {
+                    ...note.info,
+                    url: imageUrl
+                }
+            }
+            onUpdateNote(updatedNote)
+        }
+        reader.readAsDataURL(file)
+    }
+
+    function onVideoUpload(ev) {
+        const url = ev.target.value
+        if (url) {
+            const updatedNote = {
+                ...note,
+                type: 'NoteVideo',
+                info: { ...note.info, url }
+            }
+            onUpdateNote(updatedNote)
+            setIsVideoMode(false)
+        }
+    }
+
     return <article className="note-preview"
         style={{ backgroundColor: (note.style && note.style.backgroundColor) ? note.style.backgroundColor : '#ffffff' }}>
         <input
@@ -54,6 +94,7 @@ export function NotePreview({ note, onRemoveNote, onSelectNote, onUpdateNote, on
             accept="image/*"
             style={{ display: 'none' }}
             ref={fileInputRef}
+            onChange={onImgUpload}
         />
         <button className={`btn-pin ${(note.isPinned) ? 'pinned' : ''} ${(hasMedia) ? 'media' : ''}`}
             onClick={(ev) => onPinned(ev)}>
@@ -61,6 +102,17 @@ export function NotePreview({ note, onRemoveNote, onSelectNote, onUpdateNote, on
                 style={{ opacity: note.isPinned ? 1 : 0.4 }} />
         </button>
         <NoteDynamic note={note} />
+        {isVideoMode && (
+            <input
+                ref={videoInputRef}
+                className="video-url-input preview-input"
+                type="text"
+                placeholder="YouTube URL..."
+                autoFocus
+                onBlur={onVideoUpload}
+                onClick={(ev) => ev.stopPropagation()}
+            />
+        )}
         <div className="actions">
             <button onClick={() => onRemoveNote(note.id)}>
                 <img src="assets/img/trash.svg" />
@@ -77,7 +129,7 @@ export function NotePreview({ note, onRemoveNote, onSelectNote, onUpdateNote, on
             <button>
                 <img src="assets/img/archive.svg" />
             </button>
-            <button onClick={(ev) => onImgUpload(ev)}>
+            <button onClick={() => fileInputRef.current.click()}>
                 <img src="assets/img/image.svg" />
             </button>
             <button onClick={() => setIsVideoMode(!isVideoMode)}>

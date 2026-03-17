@@ -203,7 +203,7 @@ export function NoteList({ notes, onAddNote, onRemoveNote, onSelectNote, onUpdat
                     <ul className="note-grid pinned">
                         {pinnedNotes.map(note => <li className="note-card" key={note.id} style={{ backgroundColor: note.style.backgroundColor }}>
                             <NotePreview note={note} onRemoveNote={onRemoveNote} onSelectNote={onSelectNote} onUpdateNote={onUpdateNote}
-                                onAddNote={onAddNote} onImgUpload={onImgUpload} onVideoUpload={onVideoUpload} />
+                                onAddNote={onAddNote} />
                         </li>)}
                     </ul>
                 </div>
