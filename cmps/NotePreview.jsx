@@ -12,6 +12,7 @@ export function NotePreview({ note, onRemoveNote, onSelectNote, onUpdateNote, on
     const videoInputRef = useRef(null)
     const hasMedia = note.info.url ? true : false
     const isTrash = note.status === 'trash'
+    const isArchive = note.status === 'archive'
 
 
 
@@ -122,14 +123,20 @@ export function NotePreview({ note, onRemoveNote, onSelectNote, onUpdateNote, on
         )}
 
 
-        {isTrash ? (
+        {isTrash || isArchive ? (
             <div className="actions">
                 <button onClick={() => onRemoveNote(note.id)}>
                     <img src="assets/img/trash.svg" />
                 </button>
-                <button onClick={() => onRestore()}>
-                    <img src="assets/img/restore.svg" />
-                </button>
+                {isTrash ?
+                    <button onClick={() => onRestore()}>
+                        <img src="assets/img/restore.svg" />
+                    </button>
+                    :
+                    <button onClick={() => onRestore()}>
+                        <img src="assets/img/unarchive.svg" />
+                    </button>
+                }
             </div>
         ) : (
             <div className="actions">

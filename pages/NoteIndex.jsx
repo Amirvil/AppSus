@@ -96,6 +96,7 @@ export function NoteIndex() {
         <React.Fragment>
             <NoteList
                 notes={notesToDisplay}
+                label={label}
                 onAddNote={onAddNote}
                 onRemoveNote={onRemoveNote}
                 onSelectNote={(note) => setSelectedNote(note)}

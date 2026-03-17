@@ -3,12 +3,17 @@ const { useNavigate, useSearchParams } = ReactRouterDOM
 
 export function NoteFilter() {
     const navigate = useNavigate()
-    const [searchParams] = useSearchParams()
+    const [searchParams, setSearchParams] = useSearchParams()
 
     const filterByTxt = searchParams.get('txt') || ''
 
     function handleChange({ target }) {
-        navigate(`/note?txt=${target.value}`)
+        const newParams = new URLSearchParams(searchParams)
+
+        if (target.value) newParams.set('txt', target.value)
+        else newParams.delete('txt')
+
+        setSearchParams(newParams)
     }
 
     return <section className="filter-container filter">

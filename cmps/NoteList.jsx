@@ -4,7 +4,7 @@ import { NotePreview } from './NotePreview.jsx'
 import { NoteColor } from './NoteColor.jsx'
 import { noteService } from '../services/note.service.js'
 
-export function NoteList({ notes, onAddNote, onRemoveNote, onSelectNote, onUpdateNote, onArchiveNote }) {
+export function NoteList({ notes, label, onAddNote, onRemoveNote, onSelectNote, onUpdateNote, onArchiveNote }) {
 
     const [noteToEdit, setNoteToEdit] = useState(noteService.getEmptyNote())
     const noteRef = useRef(null)
@@ -103,97 +103,99 @@ export function NoteList({ notes, onAddNote, onRemoveNote, onSelectNote, onUpdat
 
     return <div>
 
-        <section className="note-composer" ref={noteRef}
-            style={{ backgroundColor: (noteToEdit.style && noteToEdit.style.backgroundColor) || '#ffffff' }}>
-            <input
-                type="file"
-                accept="image/*"
-                style={{ display: 'none' }}
-                ref={fileInputRef}
-                onChange={onImgUpload}
-            />
+        {!label &&
+            <section className="note-composer" ref={noteRef}
+                style={{ backgroundColor: (noteToEdit.style && noteToEdit.style.backgroundColor) || '#ffffff' }}>
+                <input
+                    type="file"
+                    accept="image/*"
+                    style={{ display: 'none' }}
+                    ref={fileInputRef}
+                    onChange={onImgUpload}
+                />
 
-            {isExpanded && (
-                <button className="btn-pin-composer"
-                    onClick={(ev) => onPinned(ev)}>
-                    <img src="assets/img/pin.svg"
-                        style={{ opacity: noteToEdit.isPinned ? 1 : 0.4 }} />
-                </button>
-            )}
-
-            {noteToEdit.info.url && (
-                <div className="composer-media-preview">
-                    {noteToEdit.type === 'NoteImg' && (
-                        <img className="composer-img" src={noteToEdit.info.url} alt="preview" />
-                    )}
-
-                    {noteToEdit.type === 'NoteVideo' && (
-                        <div className="video-container">
-                            <iframe
-                                src={noteToEdit.info.url.replace("watch?v=", "embed/")}
-                                frameBorder="0"
-                            ></iframe>
-                        </div>
-                    )}
-
-                    <button className="btn-remove-media"
-                        onClick={() => setNoteToEdit(prev => ({ ...prev, type: 'NoteTxt', info: { ...prev.info, url: '' } }))}>
-                        ✕
-                    </button>
-                </div>
-            )}
-
-            <form className="note-form" onSubmit={ev => ev.preventDefault()}>
                 {isExpanded && (
-                    <input name="title" className="title-input" type="text" placeholder="Title" onChange={handleChange} value={noteToEdit.info.title} />
+                    <button className="btn-pin-composer"
+                        onClick={(ev) => onPinned(ev)}>
+                        <img src="assets/img/pin.svg"
+                            style={{ opacity: noteToEdit.isPinned ? 1 : 0.4 }} />
+                    </button>
                 )}
 
-                <input name="txt" className="content-input" type="text" placeholder="Take a note..." value={noteToEdit.info.txt}
-                    onChange={handleChange}
-                    onFocus={() => setIsExpanded(true)}
-                    autoComplete="off" />
+                {noteToEdit.info.url && (
+                    <div className="composer-media-preview">
+                        {noteToEdit.type === 'NoteImg' && (
+                            <img className="composer-img" src={noteToEdit.info.url} alt="preview" />
+                        )}
 
-                {isVideoMode && (
-                    <input
-                        className="video-url-input content-input"
-                        type="text"
-                        placeholder="Paste YouTube URL here..."
-                        autoFocus
-                        onBlur={(ev) => onVideoUpload(ev)}
-                    />
+                        {noteToEdit.type === 'NoteVideo' && (
+                            <div className="video-container">
+                                <iframe
+                                    src={noteToEdit.info.url.replace("watch?v=", "embed/")}
+                                    frameBorder="0"
+                                ></iframe>
+                            </div>
+                        )}
+
+                        <button className="btn-remove-media"
+                            onClick={() => setNoteToEdit(prev => ({ ...prev, type: 'NoteTxt', info: { ...prev.info, url: '' } }))}>
+                            ✕
+                        </button>
+                    </div>
                 )}
-            </form>
 
-            {isExpanded && (
-                <div className="composer-actions">
-                    <button className="btn-close"
-                        onClick={() => onClose()}>
-                        Close
-                    </button>
-                    <button>
-                        <img src="assets/img/label.svg" />
-                    </button>
-                    <button>
-                        <img src="assets/img/archive.svg" />
-                    </button>
-                    <button onClick={() => fileInputRef.current.click()}>
-                        <img src="assets/img/image.svg" />
-                    </button>
-                    <button onClick={() => setIsVideoMode(!isVideoMode)}>
-                        <img src="assets/img/video.svg" />
-                    </button>
-                    <button>
-                        <img src="assets/img/notifications.svg" />
-                    </button>
-                    <button onClick={() => setIsPaletteOpen(!isPaletteOpen)}>
-                        <img src="assets/img/pallette.svg" />
-                    </button>
-                    {isPaletteOpen && <NoteColor onSetColor={onSetColor} />}
-                </div>
-            )}
+                <form className="note-form" onSubmit={ev => ev.preventDefault()}>
+                    {isExpanded && (
+                        <input name="title" className="title-input" type="text" placeholder="Title" onChange={handleChange} value={noteToEdit.info.title} />
+                    )}
+
+                    <input name="txt" className="content-input" type="text" placeholder="Take a note..." value={noteToEdit.info.txt}
+                        onChange={handleChange}
+                        onFocus={() => setIsExpanded(true)}
+                        autoComplete="off" />
+
+                    {isVideoMode && (
+                        <input
+                            className="video-url-input content-input"
+                            type="text"
+                            placeholder="Paste YouTube URL here..."
+                            autoFocus
+                            onBlur={(ev) => onVideoUpload(ev)}
+                        />
+                    )}
+                </form>
+
+                {isExpanded && (
+                    <div className="composer-actions">
+                        <button className="btn-close"
+                            onClick={() => onClose()}>
+                            Close
+                        </button>
+                        <button>
+                            <img src="assets/img/label.svg" />
+                        </button>
+                        <button>
+                            <img src="assets/img/archive.svg" />
+                        </button>
+                        <button onClick={() => fileInputRef.current.click()}>
+                            <img src="assets/img/image.svg" />
+                        </button>
+                        <button onClick={() => setIsVideoMode(!isVideoMode)}>
+                            <img src="assets/img/video.svg" />
+                        </button>
+                        <button>
+                            <img src="assets/img/notifications.svg" />
+                        </button>
+                        <button onClick={() => setIsPaletteOpen(!isPaletteOpen)}>
+                            <img src="assets/img/pallette.svg" />
+                        </button>
+                        {isPaletteOpen && <NoteColor onSetColor={onSetColor} />}
+                    </div>
+                )}
 
 
-        </section>
+            </section>
+        }
 
         <section className="note-list">
 
