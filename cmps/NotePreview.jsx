@@ -24,7 +24,9 @@ export function NotePreview({ note, onRemoveNote, onSelectNote, onUpdateNote, on
                 setIsPaletteOpen(false)
             }
             if (isVideoMode && videoInputRef.current && !videoInputRef.current.contains(ev.target)) {
-                setIsVideoMode(false)
+                setTimeout(() => {
+                    setIsVideoMode(false)
+                }, 100)
             }
         }
 
@@ -56,6 +58,7 @@ export function NotePreview({ note, onRemoveNote, onSelectNote, onUpdateNote, on
     }
 
     function onImgUpload(ev) {
+        console.log('img')
         setIsVideoMode(false)
         const file = ev.target.files[0]
         if (!file) return
@@ -79,6 +82,7 @@ export function NotePreview({ note, onRemoveNote, onSelectNote, onUpdateNote, on
     }
 
     function onVideoUpload(ev) {
+        console.log('video')
         const url = ev.target.value
         if (url) {
             const updatedNote = {
@@ -117,8 +121,11 @@ export function NotePreview({ note, onRemoveNote, onSelectNote, onUpdateNote, on
                 type="text"
                 placeholder="YouTube URL..."
                 autoFocus
-                onBlur={onVideoUpload}
-                onClick={(ev) => ev.stopPropagation()}
+                onBlur={(ev) => {
+                    ev.stopPropagation()
+                    onVideoUpload(ev)
+                }
+                }
             />
         )}
 

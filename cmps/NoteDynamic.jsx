@@ -9,7 +9,7 @@ export function NoteDynamic({ note }) {
 
         case 'NoteImg':
             return <div className="note-dynamic">
-                <img className="img-note" src={note.info.url} />
+                <img className="img-note" src={info.url} />
                 <h2 className="note-title">{info && info.title || 'No Title'}</h2>
                 <p className="note-content">{info.txt}</p>
             </div>

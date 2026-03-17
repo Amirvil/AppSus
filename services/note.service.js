@@ -15,7 +15,8 @@ const gNotes = [
             backgroundColor: 'white'
         },
         info: {
-            txt: 'Fullstack Me Baby!'
+            txt: 'Fullstack Me Baby!',
+            url: ''
         }
     },
     {
@@ -30,7 +31,8 @@ const gNotes = [
         },
         info: {
             title: 'Bobi and Me',
-            txt: 'Me and Bobi'
+            txt: 'Me and Bobi',
+            url: ''
         }
     },
     {
@@ -45,7 +47,8 @@ const gNotes = [
         },
         info: {
             title: 'Get my stuff together',
-            txt: 'Getting my shit together'
+            txt: 'Getting my shit together',
+            url: ''
         }
     },
     {
@@ -60,7 +63,8 @@ const gNotes = [
         },
         info: {
             title: 'Team America',
-            txt: 'America fuck yeah!'
+            txt: 'America fuck yeah!',
+            url: ''
         }
     }
 ]
@@ -123,7 +127,8 @@ function getEmptyNote(title = '', txt = '') {
         },
         info: {
             title: '',
-            txt: ''
+            txt: '',
+            url: ''
         }
     }
 }
