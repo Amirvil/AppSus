@@ -1,4 +1,4 @@
-const { useState, useRef } = React
+const { useState, useRef, useEffect } = React
 
 import { NoteColor } from './NoteColor.jsx'
 
@@ -6,7 +6,23 @@ export function NoteEdit({ note, onUpdateNote, onClose, onRemoveNote }) {
     const [noteToEdit, setNoteToEdit] = useState({ ...note })
     const [isPaletteOpen, setIsPaletteOpen] = useState(false)
     const fileInputRef = useRef(null)
+    const paletteRef = useRef(null)
     const [isVideoMode, setIsVideoMode] = useState(false)
+
+    useEffect(() => {
+        if (!isPaletteOpen) return
+
+        function handleClickOutside(ev) {
+            if (paletteRef.current && !paletteRef.current.contains(ev.target)) {
+                setIsPaletteOpen(false)
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickOutside)
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+    }, [isPaletteOpen])
 
     function onSetColor(color) {
         const updatedNote = {
@@ -140,13 +156,22 @@ export function NoteEdit({ note, onUpdateNote, onClose, onRemoveNote }) {
                         <button onClick={() => setIsVideoMode(!isVideoMode)}>
                             <img src="assets/img/video.svg" />
                         </button>
-                        <button onClick={() => setIsPaletteOpen(!isPaletteOpen)}>
+                        <div className="pallete-container">
+                            <button onClick={() => setIsPaletteOpen(!isPaletteOpen)}>
                             <img src="assets/img/pallette.svg" />
                         </button>
+                        {isPaletteOpen && (
+                            <div className="pallette-colors" ref={paletteRef}
+                                onClick={(ev) => ev.stopPropagation()}>
+                                <NoteColor onSetColor={onSetColor} />
+                            </div>
+                        )}
+                        </div>
+                        
                         <button type="button" className="btn-close" onClick={onSave}>
                             Close
                         </button>
-                        {isPaletteOpen && <NoteColor onSetColor={onSetColor} />}
+
                     </div>
                 </form>
             </div>

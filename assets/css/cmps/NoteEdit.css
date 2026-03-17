@@ -50,3 +50,12 @@
     color: var(--clr1);
     line-height: 1.25rem;
 }
+
+.pallete-container {
+    position: relative;
+}
+
+.pallette-colors {
+    position: absolute;
+    left: -150px;
+}
