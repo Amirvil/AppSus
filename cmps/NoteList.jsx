@@ -68,6 +68,7 @@ export function NoteList({ notes, onAddNote, onRemoveNote, onSelectNote, onUpdat
     }
 
     function onImgUpload(ev) {
+        setIsVideoMode(false)
         const file = ev.target.files[0]
         if (!file) return
 
@@ -202,7 +203,7 @@ export function NoteList({ notes, onAddNote, onRemoveNote, onSelectNote, onUpdat
                     <ul className="note-grid pinned">
                         {pinnedNotes.map(note => <li className="note-card" key={note.id} style={{ backgroundColor: note.style.backgroundColor }}>
                             <NotePreview note={note} onRemoveNote={onRemoveNote} onSelectNote={onSelectNote} onUpdateNote={onUpdateNote}
-                                onAddNote={onAddNote} onImageUpload={onImgUpload} onVideoUpload={onVideoUpload} />
+                                onAddNote={onAddNote} onImgUpload={onImgUpload} onVideoUpload={onVideoUpload} />
                         </li>)}
                     </ul>
                 </div>
@@ -216,7 +217,7 @@ export function NoteList({ notes, onAddNote, onRemoveNote, onSelectNote, onUpdat
                 <ul className="note-grid">
                     {otherNotes.map(note => <li className="note-card" key={note.id} style={{ backgroundColor: note.style.backgroundColor }}>
                         <NotePreview note={note} onRemoveNote={onRemoveNote} onSelectNote={onSelectNote} onUpdateNote={onUpdateNote}
-                            onAddNote={onAddNote} />
+                            onAddNote={onAddNote} onImgUpload={onImgUpload} />
                     </li>)}
                 </ul>
             </div>

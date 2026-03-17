@@ -4,10 +4,27 @@ import { NoteColor } from './NoteColor.jsx'
 import { NoteDynamic } from './NoteDynamic.jsx'
 
 
-export function NotePreview({ note, onRemoveNote, onSelectNote, onUpdateNote, onAddNote, onImageUpload, onVideoUpload }) {
+export function NotePreview({ note, onRemoveNote, onSelectNote, onUpdateNote, onAddNote, onImgUpload, onVideoUpload }) {
     const [isPaletteOpen, setIsPaletteOpen] = useState(false)
     const [isVideoMode, setIsVideoMode] = useState(false)
     const fileInputRef = useRef(null)
+    const paletteRef = useRef(null)
+    const hasMedia = note.info.url ? true : false
+
+    useEffect(() => {
+        if (!isPaletteOpen) return
+
+        function handleClickOutside(ev) {
+            if (paletteRef.current && !paletteRef.current.contains(ev.target)) {
+                setIsPaletteOpen(false)
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickOutside)
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+    }, [isPaletteOpen])
 
     function onSetColor(color) {
         const updatedNote = {
@@ -38,7 +55,7 @@ export function NotePreview({ note, onRemoveNote, onSelectNote, onUpdateNote, on
             style={{ display: 'none' }}
             ref={fileInputRef}
         />
-        <button className={`btn-pin ${(note.isPinned) ? 'pinned' : ''}`}
+        <button className={`btn-pin ${(note.isPinned) ? 'pinned' : ''} ${(hasMedia) ? 'media' : ''}`}
             onClick={(ev) => onPinned(ev)}>
             <img className="img-pin" src="assets/img/pin.svg"
                 style={{ opacity: note.isPinned ? 1 : 0.4 }} />
@@ -60,17 +77,22 @@ export function NotePreview({ note, onRemoveNote, onSelectNote, onUpdateNote, on
             <button>
                 <img src="assets/img/archive.svg" />
             </button>
-            <button>
+            <button onClick={(ev) => onImgUpload(ev)}>
                 <img src="assets/img/image.svg" />
             </button>
-            <button>
+            <button onClick={() => setIsVideoMode(!isVideoMode)}>
                 <img src="assets/img/video.svg" />
             </button>
             <button onClick={() =>
                 setIsPaletteOpen(!isPaletteOpen)}>
                 <img src="assets/img/pallette.svg" />
             </button>
-            {isPaletteOpen && <NoteColor onSetColor={onSetColor} />}
+            {isPaletteOpen && (
+                <div ref={paletteRef}
+                    onClick={(ev) => ev.stopPropagation()}>
+                    <NoteColor onSetColor={onSetColor} />
+                </div>
+            )}
         </div>
     </article >
 }
