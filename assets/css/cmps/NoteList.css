@@ -42,7 +42,7 @@
 
  .note-composer {
      position: relative;
-     min-width: 430px;
+     width: 90%;
      max-width: 600px;
      margin: 20px auto;
      background: var(--bg1);

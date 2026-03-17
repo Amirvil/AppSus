@@ -3,6 +3,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 10px;
 
     border-bottom: 1px solid var(--clr4);
 }
@@ -17,6 +18,5 @@
 }
 
 .right {
-    padding-left: 80px;
     gap: 10px;
 }
