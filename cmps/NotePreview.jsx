@@ -4,13 +4,16 @@ import { NoteColor } from './NoteColor.jsx'
 import { NoteDynamic } from './NoteDynamic.jsx'
 
 
-export function NotePreview({ note, onRemoveNote, onSelectNote, onUpdateNote, onAddNote }) {
+export function NotePreview({ note, onRemoveNote, onSelectNote, onUpdateNote, onAddNote, onArchiveNote }) {
     const [isPaletteOpen, setIsPaletteOpen] = useState(false)
     const [isVideoMode, setIsVideoMode] = useState(false)
     const fileInputRef = useRef(null)
     const paletteRef = useRef(null)
     const videoInputRef = useRef(null)
     const hasMedia = note.info.url ? true : false
+    const isTrash = note.status === 'trash'
+
+
 
     useEffect(() => {
         if (!isPaletteOpen && !isVideoMode) return
@@ -87,6 +90,10 @@ export function NotePreview({ note, onRemoveNote, onSelectNote, onUpdateNote, on
         }
     }
 
+    function onRestore() {
+        onUpdateNote({ ...note, status: '' })
+    }
+
     return <article className="note-preview"
         style={{ backgroundColor: (note.style && note.style.backgroundColor) ? note.style.backgroundColor : '#ffffff' }}>
         <input
@@ -113,38 +120,54 @@ export function NotePreview({ note, onRemoveNote, onSelectNote, onUpdateNote, on
                 onClick={(ev) => ev.stopPropagation()}
             />
         )}
-        <div className="actions">
-            <button onClick={() => onRemoveNote(note.id)}>
-                <img src="assets/img/trash.svg" />
-            </button>
-            <button onClick={() => onSelectNote(note)}>
-                <img src="assets/img/edit.svg" />
-            </button>
-            <button onClick={(ev) => onDuplicate(ev)}>
-                <img src="assets/img/copy.svg" />
-            </button>
-            <button>
-                <img src="assets/img/label.svg" />
-            </button>
-            <button>
-                <img src="assets/img/archive.svg" />
-            </button>
-            <button onClick={() => fileInputRef.current.click()}>
-                <img src="assets/img/image.svg" />
-            </button>
-            <button onClick={() => setIsVideoMode(!isVideoMode)}>
-                <img src="assets/img/video.svg" />
-            </button>
-            <button onClick={() =>
-                setIsPaletteOpen(!isPaletteOpen)}>
-                <img src="assets/img/pallette.svg" />
-            </button>
-            {isPaletteOpen && (
+
+
+        {isTrash ? (
+            <div className="actions">
+                <button onClick={() => onRemoveNote(note.id)}>
+                    <img src="assets/img/trash.svg" />
+                </button>
+                <button onClick={() => onRestore()}>
+                    <img src="assets/img/restore.svg" />
+                </button>
+            </div>
+        ) : (
+            <div className="actions">
+                <button onClick={() => onRemoveNote(note.id)}>
+                    <img src="assets/img/trash.svg" />
+                </button>
+                <button onClick={() => onSelectNote(note)}>
+                    <img src="assets/img/edit.svg" />
+                </button>
+                <button onClick={(ev) => onDuplicate(ev)}>
+                    <img src="assets/img/copy.svg" />
+                </button>
+                <button>
+                    <img src="assets/img/label.svg" />
+                </button>
+                <button onClick={() => onArchiveNote(note)}>
+                    <img src="assets/img/archive.svg" />
+                </button>
+                <button onClick={() => fileInputRef.current.click()}>
+                    <img src="assets/img/image.svg" />
+                </button>
+                <button onClick={() => setIsVideoMode(!isVideoMode)}>
+                    <img src="assets/img/video.svg" />
+                </button>
+                <button onClick={() =>
+                    setIsPaletteOpen(!isPaletteOpen)}>
+                    <img src="assets/img/pallette.svg" />
+                </button>
+            </div>
+        )}
+
+        {
+            isPaletteOpen && (
                 <div ref={paletteRef}
                     onClick={(ev) => ev.stopPropagation()}>
                     <NoteColor onSetColor={onSetColor} />
                 </div>
-            )}
-        </div>
+            )
+        }
     </article >
 }

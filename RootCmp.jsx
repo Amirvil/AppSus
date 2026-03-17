@@ -7,11 +7,18 @@ import { UserMsg } from './cmps/UserMsg.jsx'
 import { NoteIndex } from './pages/NoteIndex.jsx'
 
 export function RootCmp() {
+
     return <Router>
         <section className="root-cmp container">
             <NoteHeader />
             <NoteNav />
-            <NoteIndex />
+            <main className="main-content">
+                <Routes>
+                    <Route path="/note" element={<NoteIndex />} />
+                    <Route path="/note/:label" element={<NoteIndex />} />
+                    <Route path="/" element={<NoteIndex />} />
+                </Routes>
+            </main>
             <UserMsg />
         </section>
     </Router>

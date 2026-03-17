@@ -1,5 +1,5 @@
 const { useState, useEffect } = React
-const { useSearchParams } = ReactRouterDOM
+const { useSearchParams, useParams } = ReactRouterDOM
 
 import { NoteList } from '../cmps/NoteList.jsx'
 import { NoteEdit } from '../cmps/NoteEdit.jsx'
@@ -9,6 +9,7 @@ import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 export function NoteIndex() {
     const [notes, setNotes] = useState([])
     const [searchParams] = useSearchParams()
+    const { label } = useParams()
     const [selectedNote, setSelectedNote] = useState(null)
 
     const filterBy = searchParams.get('txt') || ''
@@ -27,8 +28,17 @@ export function NoteIndex() {
         const searchStr = filterBy.toLowerCase()
         const title = (note.info && note.info.title) ? note.info.title.toLowerCase() : ''
         const txt = (note.info && note.info.txt) ? note.info.txt.toLowerCase() : ''
+        const matchesSearch = title.includes(searchStr) || txt.includes(searchStr)
 
-        return title.includes(searchStr) || txt.includes(searchStr)
+        if (!label) {
+            return matchesSearch && !note.status
+        }
+
+        if (label === 'trash' || label === 'archive') {
+            return matchesSearch && note.status === label
+        }
+
+        return matchesSearch && note.label === label && !note.status
     })
 
     function onAddNote(newNote) {
@@ -40,12 +50,19 @@ export function NoteIndex() {
     }
 
     function onRemoveNote(noteId) {
-        noteService.remove(noteId)
-            .then(() => {
-                setNotes(prev => prev.filter(note => note.id !== noteId))
-                showSuccessMsg(`note ${noteId} removed`)
-            })
-            .catch(err => showErrorMsg(`Couldn't remove ${noteId}`))
+        const noteToUpdate = notes.find(note => note.id === noteId)
+
+        if (noteToUpdate.status === 'trash') {
+            noteService.remove(noteId)
+                .then(() => {
+                    setNotes(prev => prev.filter(note => note.id !== noteId))
+                    showSuccessMsg('Deleted permanently')
+                })
+        } else {
+            const updatedNote = { ...noteToUpdate, status: 'trash' }
+            onUpdateNote(updatedNote)
+            showSuccessMsg('Moved to trash')
+        }
     }
 
     function onUpdateNote(updatedNote) {
@@ -62,6 +79,13 @@ export function NoteIndex() {
             })
     }
 
+    function onArchiveNote(note) {
+        const newStatus = note.status === 'archive' ? '' : 'archive'
+        const updatedNote = { ...note, status: newStatus }
+        onUpdateNote(updatedNote)
+        showSuccessMsg(newStatus === 'archive' ? 'Note archived' : 'Note unarchived')
+    }
+
     if (!notes) return <div className="loader">
         Loading...
     </div>
@@ -75,7 +99,8 @@ export function NoteIndex() {
                 onAddNote={onAddNote}
                 onRemoveNote={onRemoveNote}
                 onSelectNote={(note) => setSelectedNote(note)}
-                onUpdateNote={onUpdateNote} />
+                onUpdateNote={onUpdateNote}
+                onArchiveNote={onArchiveNote} />
 
             {selectedNote && (<NoteEdit
                 note={selectedNote}

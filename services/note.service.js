@@ -8,6 +8,8 @@ const gNotes = [
         id: 'n101',
         createdAt: 1112222,
         type: 'NoteTxt',
+        status: '',
+        label: '',
         isPinned: true,
         style: {
             backgroundColor: 'white'
@@ -20,6 +22,8 @@ const gNotes = [
         id: 'n102',
         createdAt: 1112223,
         type: 'NoteTxt',
+        status: '',
+        label: '',
         isPinned: false,
         style: {
             backgroundColor: 'white'
@@ -33,6 +37,8 @@ const gNotes = [
         id: 'n103',
         createdAt: 1112224,
         type: 'NoteTxt',
+        status: '',
+        label: '',
         isPinned: false,
         style: {
             backgroundColor: 'white'
@@ -46,6 +52,8 @@ const gNotes = [
         id: 'n104',
         createdAt: 1112225,
         type: 'NoteTxt',
+        status: '',
+        label: '',
         isPinned: false,
         style: {
             backgroundColor: 'white'
@@ -107,6 +115,8 @@ function getEmptyNote(title = '', txt = '') {
         id: '',
         createdAt: Date.now(),
         type: 'NoteTxt',
+        status: '',
+        label: '',
         isPinned: false,
         style: {
             backgroundColor: 'white'
